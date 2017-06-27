@@ -1,4 +1,4 @@
-/* File photo_table_0.1.ino */
+/* File photo_table_0.1.ino исправил всек */
 
 
 #include "define.h"
