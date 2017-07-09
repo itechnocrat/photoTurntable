@@ -1,22 +1,26 @@
-#include "Arduino.h"
-#include "define.h"
+#include <Arduino.h>
+#include "pins.h"
+#include "constants.h"
+
 void do_shot() {
-  digitalWrite(DO_SHOT, HIGH);
+  digitalWrite(PIN_DO_SHOT, HIGH);
   delay(200);
-  digitalWrite(DO_SHOT, LOW);
+  digitalWrite(PIN_DO_SHOT, LOW);
+}
+
+void direction_rotation_set(int direct) {
+  digitalWrite(PIN_MOTOR_DIRECTION_ROTATION, direct);
 }
 
 void motor_do_step(int steps, int direct) {
-  set_direction_rotation(direct);
-  for (int i = 0; i < steps; ++i) {
+  direction_rotation_set(direct);
+  int i;
+  for (i = 0; i < steps; ++i) {
     digitalWrite(PIN_MOTOR_DO_STEP, HIGH);
     delay(TIME_BETWEEN_STEPS);
     digitalWrite(PIN_MOTOR_DO_STEP, LOW);
   }
-}
-
-void set_direction_rotation(int direct) {
-  digitalWrite(PIN_MOTOR_DIRECTION_ROTATION, direct);
+  ser_log("STEPS", i);
 }
 
 void motor_up() {
@@ -33,4 +37,15 @@ void motor_down() {
 
   // Выключаем мотор
   digitalWrite(PIN_MOTOR_ON, LOW);
+}
+
+void ser_log(char string[], int value) {
+  Serial.print(string);
+  Serial.print(" = ");
+  Serial.println(value);
+}
+
+void msg(char string[]) {
+  Serial.print(string);
+  Serial.println();
 }
